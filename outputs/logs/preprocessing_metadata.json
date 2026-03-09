@@ -1,0 +1,146 @@
+{
+  "case1": {
+    "case": 1,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case2": {
+    "case": 2,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case3": {
+    "case": 3,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 71,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case4": {
+    "case": 4,
+    "artifacts_removed": 3836,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case5": {
+    "case": 5,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 11,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case6": {
+    "case": 6,
+    "artifacts_removed": 5805,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case7": {
+    "case": 7,
+    "artifacts_removed": 5638,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case8": {
+    "case": 8,
+    "artifacts_removed": 3340,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case9": {
+    "case": 9,
+    "artifacts_removed": 6249,
+    "bis_gaps_filled": 37,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case10": {
+    "case": 10,
+    "artifacts_removed": 5091,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case11": {
+    "case": 11,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 150,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case12": {
+    "case": 12,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 83,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case13": {
+    "case": 13,
+    "artifacts_removed": 6029,
+    "bis_gaps_filled": 4,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case14": {
+    "case": 14,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 7,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case15": {
+    "case": 15,
+    "artifacts_removed": 9777,
+    "bis_gaps_filled": 25,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case16": {
+    "case": 16,
+    "artifacts_removed": 6418,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case17": {
+    "case": 17,
+    "artifacts_removed": 3007,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case18": {
+    "case": 18,
+    "artifacts_removed": 2836,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case19": {
+    "case": 19,
+    "artifacts_removed": 2898,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case20": {
+    "case": 20,
+    "artifacts_removed": 7770,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case21": {
+    "case": 21,
+    "artifacts_removed": 0,
+    "bis_gaps_filled": 16,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case22": {
+    "case": 22,
+    "artifacts_removed": 1813,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case23": {
+    "case": 23,
+    "artifacts_removed": 4226,
+    "bis_gaps_filled": 1,
+    "emd_method": "Bandpass_Fallback"
+  },
+  "case24": {
+    "case": 24,
+    "artifacts_removed": 3899,
+    "bis_gaps_filled": 0,
+    "emd_method": "Bandpass_Fallback"
+  }
+}
