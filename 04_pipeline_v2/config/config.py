@@ -7,13 +7,31 @@ import os
 # ── Paths ──────────────────────────────────────────────────────────
 # BASE_DIR = .../Mini Project 2/04_pipeline_v2
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Dataset lives one level up, in 03_data/vitaldb_raw after the v3 reorg.
-# The old path "<parent>/Dataset" is kept as a fallback for back-compat.
 _PROJECT_ROOT = os.path.dirname(BASE_DIR)
-_NEW_DATASET = os.path.join(_PROJECT_ROOT, "03_data", "vitaldb_raw")
-_OLD_DATASET = os.path.join(_PROJECT_ROOT, "Dataset")
-DATASET_DIR = _NEW_DATASET if os.path.isdir(_NEW_DATASET) else _OLD_DATASET
-OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
+
+# Cohort size is parameterised via the V2_NUM_CASES env var so v2 can be
+# rerun on different cohorts (e.g. the 100-case VitalDB expansion) without
+# any change to algorithms or hyperparameters. Defaults to the original 24.
+_N_env = os.environ.get("V2_NUM_CASES")
+
+if _N_env is not None:
+    # ---- Cohort-specific mode (e.g. V2_NUM_CASES=100) ---------------------
+    # Data lives in 04_pipeline_v2/dataset_n<N>/ (prepared by
+    # scripts/09_prepare_n100_dataset.py), outputs go to outputs_n<N>/ to
+    # preserve the original n=24 runs.
+    NUM_CASES = int(_N_env)
+    DATASET_DIR = os.path.join(BASE_DIR, f"dataset_n{NUM_CASES}")
+    OUTPUT_DIR = os.path.join(BASE_DIR, f"outputs_n{NUM_CASES}")
+else:
+    # ---- Default mode (original n=24) -------------------------------------
+    # The old "<parent>/Dataset" path is kept for reproducibility of the
+    # original runs; 03_data/vitaldb_raw is available as a fallback for
+    # tooling that expects the v3 data layout.
+    NUM_CASES = 24
+    _NEW_DATASET = os.path.join(_PROJECT_ROOT, "03_data", "vitaldb_raw")
+    _OLD_DATASET = os.path.join(_PROJECT_ROOT, "Dataset")
+    DATASET_DIR = _OLD_DATASET if os.path.isdir(_OLD_DATASET) else _NEW_DATASET
+    OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
 PREPROCESS_DIR = os.path.join(OUTPUT_DIR, "preprocessing")
 FEATURES_DIR = os.path.join(OUTPUT_DIR, "features")
@@ -23,7 +41,6 @@ PLOTS_DIR = os.path.join(OUTPUT_DIR, "plots")
 LOGS_DIR = os.path.join(OUTPUT_DIR, "logs")
 
 # ── Dataset ────────────────────────────────────────────────────────
-NUM_CASES = 24
 SAMPLING_RATE = 128          # Hz
 BIS_INTERVAL = 5             # seconds
 WINDOW_SIZE_SEC = 5          # seconds

@@ -57,6 +57,18 @@ coverage.xml
 04_pipeline_v2/outputs/results/*.png
 04_pipeline_v2/outputs/results/*.pdf
 
+# Cohort-specific v2 runs (e.g. n=100). Ignore prepped data and intermediate
+# outputs; keep the small results CSVs so the LOPO table is git-tracked.
+04_pipeline_v2/dataset_n*/
+04_pipeline_v2/outputs_n*/preprocessing/
+04_pipeline_v2/outputs_n*/features/
+04_pipeline_v2/outputs_n*/models/
+04_pipeline_v2/outputs_n*/plots/
+04_pipeline_v2/outputs_n*/logs/
+!04_pipeline_v2/outputs_n*/results/
+04_pipeline_v2/outputs_n*/results/*.png
+04_pipeline_v2/outputs_n*/results/*.pdf
+
 # v3 runs
 05_pipeline_v3/results/runs/
 05_pipeline_v3/results/checkpoints/
