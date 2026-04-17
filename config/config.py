@@ -5,8 +5,14 @@ All hyperparameters, paths, and constants in one place.
 import os
 
 # ── Paths ──────────────────────────────────────────────────────────
+# BASE_DIR = .../Mini Project 2/04_pipeline_v2
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATASET_DIR = os.path.join(os.path.dirname(BASE_DIR), "Dataset")
+# Dataset lives one level up, in 03_data/vitaldb_raw after the v3 reorg.
+# The old path "<parent>/Dataset" is kept as a fallback for back-compat.
+_PROJECT_ROOT = os.path.dirname(BASE_DIR)
+_NEW_DATASET = os.path.join(_PROJECT_ROOT, "03_data", "vitaldb_raw")
+_OLD_DATASET = os.path.join(_PROJECT_ROOT, "Dataset")
+DATASET_DIR = _NEW_DATASET if os.path.isdir(_NEW_DATASET) else _OLD_DATASET
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
 PREPROCESS_DIR = os.path.join(OUTPUT_DIR, "preprocessing")
