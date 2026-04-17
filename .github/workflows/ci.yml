@@ -26,14 +26,15 @@ jobs:
 
       - name: Ruff
         run: |
-          # Scope ruff to pipeline code; skip archived outputs and notebooks.
-          ruff check 04_pipeline_v2 05_pipeline_v3 \
+          # Lint only v3 code. v2 is frozen per CONTRIBUTING.md and retains
+          # its original style; re-linting it would violate the freeze.
+          ruff check 05_pipeline_v3 \
             --exclude '*.ipynb' --exclude '**/outputs/**' \
             --select E,F,W,I --ignore E501
 
       - name: Black (check only)
         run: |
-          black --check 04_pipeline_v2 05_pipeline_v3 \
+          black --check 05_pipeline_v3 \
             --exclude '(/outputs/|/\.venv/)'
 
   tests-v3:

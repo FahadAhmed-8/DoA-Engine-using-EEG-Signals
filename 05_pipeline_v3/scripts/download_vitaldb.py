@@ -31,8 +31,8 @@ import sys
 # Resolve paths so this script is runnable from the project root.
 THIS_FILE = os.path.abspath(__file__)
 SCRIPTS_DIR = os.path.dirname(THIS_FILE)
-V3_ROOT = os.path.dirname(SCRIPTS_DIR)                     # .../05_pipeline_v3
-PROJECT_ROOT = os.path.dirname(V3_ROOT)                    # .../Mini Project 2
+V3_ROOT = os.path.dirname(SCRIPTS_DIR)  # .../05_pipeline_v3
+PROJECT_ROOT = os.path.dirname(V3_ROOT)  # .../Mini Project 2
 
 # Ensure `from data.vitaldb_downloader import ...` works.
 sys.path.insert(0, V3_ROOT)
@@ -47,8 +47,12 @@ from data.vitaldb_downloader import (  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--n", type=int, default=100, help="target number of successful cases")
+    p = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    p.add_argument(
+        "--n", type=int, default=100, help="target number of successful cases"
+    )
     p.add_argument(
         "--output-dir",
         type=str,
@@ -61,7 +65,9 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--sleep", type=float, default=0.0, help="seconds between downloads")
-    p.add_argument("--dry-run", action="store_true", help="print first N case IDs and exit")
+    p.add_argument(
+        "--dry-run", action="store_true", help="print first N case IDs and exit"
+    )
     p.add_argument(
         "--rebuild-catalogue",
         action="store_true",
@@ -86,7 +92,9 @@ def main() -> int:
 
     if args.dry_run:
         ids = select_case_ids(spec)
-        print(f"Would attempt up to {len(ids)} cases (target={args.n}, seed={args.seed}).")
+        print(
+            f"Would attempt up to {len(ids)} cases (target={args.n}, seed={args.seed})."
+        )
         print("First 30 case IDs:", ids[:30])
         return 0
 

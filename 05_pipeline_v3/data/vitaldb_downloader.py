@@ -40,6 +40,7 @@ Usage
 
 Or from the command line via `05_pipeline_v3/scripts/download_vitaldb.py`.
 """
+
 from __future__ import annotations
 
 import json
@@ -54,7 +55,6 @@ from typing import Optional
 import h5py
 import numpy as np
 import pandas as pd
-
 
 # ----------------------------------------------------------------------------- #
 # Constants
@@ -231,7 +231,9 @@ def _qc_verdict(
 
     if duration_min < thresholds.min_duration_min:
         failed = True
-        notes.append(f"duration {duration_min:.1f}min < {thresholds.min_duration_min:.1f}")
+        notes.append(
+            f"duration {duration_min:.1f}min < {thresholds.min_duration_min:.1f}"
+        )
 
     bis_nan_pct = _percent_nan(bis)
     if bis_nan_pct > thresholds.max_bis_nan_pct:
@@ -252,7 +254,9 @@ def _qc_verdict(
     eeg_rail_pct = _percent_at_rail(eeg)
     if eeg_rail_pct > thresholds.max_eeg_rail_pct:
         failed = True
-        notes.append(f"EEG rail {eeg_rail_pct:.1f}% > {thresholds.max_eeg_rail_pct:.1f}%")
+        notes.append(
+            f"EEG rail {eeg_rail_pct:.1f}% > {thresholds.max_eeg_rail_pct:.1f}%"
+        )
 
     return (not failed), "; ".join(notes) if notes else "ok"
 
@@ -279,15 +283,28 @@ def _summarise_signals(
         CatalogueColumns.N_EEG_SAMPLES: int(eeg.size),
         CatalogueColumns.N_BIS_SAMPLES: int(bis.size),
         CatalogueColumns.DURATION_MIN: round(eeg.size / SAMPLING_RATE_HZ / 60.0, 2),
-        CatalogueColumns.EEG_MIN: float(finite_eeg.min()) if finite_eeg.size else np.nan,
-        CatalogueColumns.EEG_MAX: float(finite_eeg.max()) if finite_eeg.size else np.nan,
-        CatalogueColumns.EEG_STD: float(finite_eeg.std()) if finite_eeg.size else np.nan,
+        CatalogueColumns.EEG_MIN: (
+            float(finite_eeg.min()) if finite_eeg.size else np.nan
+        ),
+        CatalogueColumns.EEG_MAX: (
+            float(finite_eeg.max()) if finite_eeg.size else np.nan
+        ),
+        CatalogueColumns.EEG_STD: (
+            float(finite_eeg.std()) if finite_eeg.size else np.nan
+        ),
         CatalogueColumns.EEG_NAN_PCT: round(_percent_nan(eeg), 2),
-        CatalogueColumns.BIS_MIN: float(finite_bis.min()) if finite_bis.size else np.nan,
-        CatalogueColumns.BIS_MAX: float(finite_bis.max()) if finite_bis.size else np.nan,
-        CatalogueColumns.BIS_MEDIAN: float(np.median(finite_bis)) if finite_bis.size else np.nan,
+        CatalogueColumns.BIS_MIN: (
+            float(finite_bis.min()) if finite_bis.size else np.nan
+        ),
+        CatalogueColumns.BIS_MAX: (
+            float(finite_bis.max()) if finite_bis.size else np.nan
+        ),
+        CatalogueColumns.BIS_MEDIAN: (
+            float(np.median(finite_bis)) if finite_bis.size else np.nan
+        ),
         CatalogueColumns.BIS_NAN_PCT: round(_percent_nan(bis), 2),
-        CatalogueColumns.DOWNLOADED_AT: datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        CatalogueColumns.DOWNLOADED_AT: datetime.utcnow().isoformat(timespec="seconds")
+        + "Z",
         CatalogueColumns.DOWNLOAD_SECONDS: round(download_seconds, 2),
     }
     return row
@@ -332,7 +349,10 @@ def download_and_save_case(
             CatalogueColumns.BIS_MAX: np.nan,
             CatalogueColumns.BIS_MEDIAN: np.nan,
             CatalogueColumns.BIS_NAN_PCT: np.nan,
-            CatalogueColumns.DOWNLOADED_AT: datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            CatalogueColumns.DOWNLOADED_AT: datetime.utcnow().isoformat(
+                timespec="seconds"
+            )
+            + "Z",
             CatalogueColumns.DOWNLOAD_SECONDS: 0.0,
         }
 
@@ -424,13 +444,15 @@ def build_catalogue(
                 eeg = np.asarray(f["EEG"]).reshape(-1)
                 bis = np.asarray(f["bis"]).reshape(-1)
         except Exception as exc:
-            rows.append({
-                CatalogueColumns.VITALDB_CASEID: caseid,
-                CatalogueColumns.FILENAME: fname,
-                CatalogueColumns.LOCAL_PATH: fname,
-                CatalogueColumns.STATUS: "qc_fail",
-                CatalogueColumns.QC_NOTES: f"unreadable: {exc}",
-            })
+            rows.append(
+                {
+                    CatalogueColumns.VITALDB_CASEID: caseid,
+                    CatalogueColumns.FILENAME: fname,
+                    CatalogueColumns.LOCAL_PATH: fname,
+                    CatalogueColumns.STATUS: "qc_fail",
+                    CatalogueColumns.QC_NOTES: f"unreadable: {exc}",
+                }
+            )
             continue
         merged = existing_by_id.get(caseid, {})
         merged.update(
@@ -438,7 +460,9 @@ def build_catalogue(
                 caseid=caseid,
                 eeg=eeg,
                 bis=bis,
-                download_seconds=float(merged.get(CatalogueColumns.DOWNLOAD_SECONDS, 0.0) or 0.0),
+                download_seconds=float(
+                    merged.get(CatalogueColumns.DOWNLOAD_SECONDS, 0.0) or 0.0
+                ),
                 filename=fname,
                 status="downloaded",
                 qc_notes=str(merged.get(CatalogueColumns.QC_NOTES, "rebuilt")),
@@ -499,14 +523,18 @@ def run_download(
     log.info("Already downloaded: %d", len(already))
 
     if len(already) >= n_target:
-        log.info("Nothing to do — catalogue already has %d successful cases.", len(already))
+        log.info(
+            "Nothing to do — catalogue already has %d successful cases.", len(already)
+        )
         return catalogue
 
     candidates = select_case_ids(spec)
     # Don't re-attempt cases already marked qc_fail or downloaded.
     already_attempted = set()
     if not catalogue.empty:
-        already_attempted = set(catalogue[CatalogueColumns.VITALDB_CASEID].astype(int).tolist())
+        already_attempted = set(
+            catalogue[CatalogueColumns.VITALDB_CASEID].astype(int).tolist()
+        )
 
     queue = [cid for cid in candidates if cid not in already_attempted]
     log.info("Candidate queue length: %d", len(queue))
@@ -603,11 +631,20 @@ if __name__ == "__main__":
     # Quick smoke test: try to download one case into /tmp and print the row.
     import argparse
 
-    parser = argparse.ArgumentParser(description="Smoke-test the downloader on one case.")
+    parser = argparse.ArgumentParser(
+        description="Smoke-test the downloader on one case."
+    )
     parser.add_argument("--caseid", type=int, default=3)
     parser.add_argument("--output-dir", type=str, default="/tmp/vitaldb_smoke")
     args = parser.parse_args()
 
     row = download_and_save_case(caseid=args.caseid, output_dir=args.output_dir)
-    print(json.dumps({k: (v if isinstance(v, (int, float, str)) else str(v))
-                      for k, v in row.items()}, indent=2))
+    print(
+        json.dumps(
+            {
+                k: (v if isinstance(v, (int, float, str)) else str(v))
+                for k, v in row.items()
+            },
+            indent=2,
+        )
+    )
