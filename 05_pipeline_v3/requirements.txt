@@ -1,0 +1,49 @@
+# Pipeline v3 (journal paper) — requirements
+# As of Week 1 scaffold. Weeks 2–12 may add more as the HEED-Net model,
+# ablations, and paper figures land.
+
+# ---- Core numerical ---------------------------------------------------------
+numpy>=1.24,<3.0
+pandas>=2.0,<3.0
+scipy>=1.10,<2.0
+h5py>=3.8,<4.0
+
+# ---- Classical ML (baselines + inner hp search) -----------------------------
+scikit-learn>=1.3,<2.0
+xgboost>=2.0,<4.0
+
+# ---- Deep learning ----------------------------------------------------------
+# CUDA build only when a GPU is available; CPU works fine for the dev laptop.
+torch>=2.2,<3.0
+
+# ---- Signal processing ------------------------------------------------------
+PyWavelets>=1.5,<2.0     # db4 5-level DWT for spectral/wavelet features
+EMD-signal>=1.5,<2.0     # NA-MEMD replacement path
+antropy>=0.1.6,<1.0      # SampEn, ApEn, PermEn, spectral entropy, Hjorth
+nolds>=0.6,<1.0          # fallback entropy implementations
+
+# ---- Data acquisition -------------------------------------------------------
+vitaldb>=1.4,<2.0
+
+# ---- Evaluation + stats -----------------------------------------------------
+statsmodels>=0.14,<1.0   # ICC, paired tests
+scikit-posthocs>=0.9     # Nemenyi, FDR corrections
+pingouin>=0.5,<1.0       # ICC(3,1), Bland-Altman wrappers
+
+# ---- Interpretability (Weeks 9–10) ------------------------------------------
+shap>=0.44,<1.0
+captum>=0.7,<1.0
+
+# ---- Configs + experiment management ----------------------------------------
+hydra-core>=1.3,<2.0
+omegaconf>=2.3,<3.0
+pyyaml>=6.0
+tqdm>=4.65
+
+# ---- Plotting (figures for paper) -------------------------------------------
+matplotlib>=3.7,<4.0
+seaborn>=0.13,<1.0
+
+# ---- Developer tools --------------------------------------------------------
+pytest>=7.4
+pytest-cov>=4.1

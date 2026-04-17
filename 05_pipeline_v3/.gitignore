@@ -1,0 +1,79 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Data (never commit raw or intermediate data)
+data/raw/
+data/interim/
+data/processed/
+data/external/
+*.mat
+*.npz
+*.npy
+*.parquet
+*.h5
+*.hdf5
+
+# Model artefacts / checkpoints
+models/checkpoints/
+models/pretrained/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pkl
+*.joblib
+
+# Experiment outputs
+experiments/runs/
+experiments/logs/
+experiments/results/
+outputs/
+logs/
+mlruns/
+wandb/
+tb_logs/
+lightning_logs/
+
+# Configs with secrets
+config/local.yaml
+config/*.secret.yaml
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Notebooks (strip outputs before commit; keep source)
+notebooks/**/*.ipynb_outputs/
+
+# LaTeX build artefacts (if paper drafts end up here)
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk

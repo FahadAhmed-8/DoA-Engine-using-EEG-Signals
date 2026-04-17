@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it using the metadata below."
+title: "DoA-Engine: Subject-Independent Depth-of-Anesthesia Estimation from Single-Channel EEG"
+abstract: >-
+  A research pipeline for estimating Depth of Anaesthesia (DoA) from
+  single-channel EEG on the VitalDB cohort. The v2 pipeline (frozen) uses
+  multi-entropy fusion (SampEn, ApEn, PE) with classical ML models; the v3
+  pipeline introduces a dual-stream neural architecture (1D-ResNet + BiLSTM
+  with cross-attention) trained with domain-adversarial learning for
+  subject-invariant prediction, and is evaluated with nested
+  Leave-One-Patient-Out cross-validation and bootstrap confidence intervals.
+authors:
+  - family-names: "Ahmed"
+    given-names: "Fahad"
+    email: "fahadahmed982004@gmail.com"
+repository-code: "https://github.com/FahadAhmed-8/DoA-Engine-using-EEG-Signals"
+license: MIT
+keywords:
+  - depth of anaesthesia
+  - EEG
+  - entropy
+  - bispectral index
+  - VitalDB
+  - LOPO cross-validation
+  - biomedical signal processing
+  - multi-task learning
+  - domain-adversarial neural networks
+preferred-citation:
+  type: article
+  title: "Subject-Independent Depth-of-Anaesthesia Estimation from Single-Channel EEG with Hybrid Entropy-Deep Representations"
+  authors:
+    - family-names: "Ahmed"
+      given-names: "Fahad"
+  year: 2026
+  journal: "(submission in preparation)"
+  notes: "Manuscript draft; update this block once a venue is confirmed."

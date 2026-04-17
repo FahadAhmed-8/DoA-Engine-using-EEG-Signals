@@ -1,0 +1,20 @@
+# Pipeline v2 (frozen) — requirements
+# Produces the baseline RMSE 10.65 / LOPO RMSE 11.53 ± 2.13 results.
+# Pins chosen to match the environment the original 6 LOPO rows were computed
+# with; loosen if you intentionally want to see version-drift effects.
+
+numpy>=1.24,<3.0
+pandas>=2.0,<3.0
+scipy>=1.10,<2.0
+scikit-learn>=1.3,<2.0
+xgboost>=2.0,<4.0
+h5py>=3.8,<4.0
+matplotlib>=3.7,<4.0
+
+# EMD decomposition with 3-tier fallback in data/preprocessor.py.
+# If install fails on your platform, the pipeline silently falls back to a
+# Butterworth bandpass — so EMD is not hard-required.
+EMD-signal>=1.5,<2.0
+
+# Reproducibility
+tqdm>=4.65

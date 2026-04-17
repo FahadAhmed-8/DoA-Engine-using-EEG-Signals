@@ -1,6 +1,101 @@
-outputs/preprocessing/
-
-# Python bytecode
+# ---- Python -----------------------------------------------------------------
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
 
+# ---- Virtual environments ---------------------------------------------------
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# ---- Packaging --------------------------------------------------------------
+build/
+dist/
+*.egg-info/
+*.egg
+
+# ---- Testing / linting caches -----------------------------------------------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
+coverage.xml
+.ipynb_checkpoints/
+
+# ---- Data (never commit raw or derived data) --------------------------------
+# Raw VitalDB recordings live in 03_data/vitaldb_raw/ and are pulled by the
+# downloader; they must not land in git.
+03_data/vitaldb_raw/
+03_data/**/*.mat
+03_data/**/*.h5
+03_data/**/*.hdf5
+03_data/**/*.parquet
+03_data/**/*.npz
+03_data/**/*.npy
+
+# Catalogue is fine to commit (it is metadata, not waveforms) BUT only the
+# template version. Uncomment the line below if you want to keep catalogue
+# out of git as well.
+# 03_data/case_catalogue.csv
+
+# ---- Pipeline outputs -------------------------------------------------------
+04_pipeline_v2/outputs/preprocessing/
+04_pipeline_v2/outputs/features/
+04_pipeline_v2/outputs/models/
+04_pipeline_v2/outputs/plots/
+04_pipeline_v2/outputs/logs/
+# Keep the small results CSVs tracked:
+!04_pipeline_v2/outputs/results/
+# Except large artefacts within results:
+04_pipeline_v2/outputs/results/*.png
+04_pipeline_v2/outputs/results/*.pdf
+
+# v3 runs
+05_pipeline_v3/results/runs/
+05_pipeline_v3/results/checkpoints/
+05_pipeline_v3/results/logs/
+05_pipeline_v3/results/figures/
+05_pipeline_v3/**/*.ckpt
+05_pipeline_v3/**/*.pt
+05_pipeline_v3/**/*.pth
+
+# Experiment-tracking
+mlruns/
+wandb/
+lightning_logs/
+tb_logs/
+
+# ---- LaTeX (if paper sources land in 05_pipeline_v3/paper/) -----------------
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.toc
+
+# ---- Editors / OS -----------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---- Literature PDFs (02_literature/) is tracked BUT not large PDFs --------
+# Individual reference PDFs are fine; if the folder grows beyond ~50MB
+# consider moving to git-lfs.
+
+# ---- Local overrides --------------------------------------------------------
+*.local
+local_*.yaml
+*.secret.yaml

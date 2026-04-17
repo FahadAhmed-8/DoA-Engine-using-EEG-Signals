@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint (ruff + black)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install lint tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff==0.5.0 black==24.4.2
+
+      - name: Ruff
+        run: |
+          # Scope ruff to pipeline code; skip archived outputs and notebooks.
+          ruff check 04_pipeline_v2 05_pipeline_v3 \
+            --exclude '*.ipynb' --exclude '**/outputs/**' \
+            --select E,F,W,I --ignore E501
+
+      - name: Black (check only)
+        run: |
+          black --check 04_pipeline_v2 05_pipeline_v3 \
+            --exclude '(/outputs/|/\.venv/)'
+
+  tests-v3:
+    name: Tests (v3 pipeline)
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install v3 requirements (non-torch subset for fast CI)
+        run: |
+          python -m pip install --upgrade pip
+          # Skip torch and shap in CI to keep the job quick; unit tests for
+          # HEED-Net will get a dedicated GPU job later.
+          pip install numpy pandas scipy h5py scikit-learn xgboost \
+            PyWavelets EMD-signal antropy nolds vitaldb \
+            statsmodels pingouin pyyaml tqdm \
+            pytest pytest-cov
+
+      - name: Run v3 tests
+        run: |
+          if [ -d 05_pipeline_v3/tests ] && [ -n "$(find 05_pipeline_v3/tests -name 'test_*.py' -print -quit)" ]; then
+            pytest 05_pipeline_v3/tests -q --tb=short
+          else
+            echo "No tests yet under 05_pipeline_v3/tests — skipping."
+          fi
+
+  downloader-smoke:
+    name: VitalDB downloader smoke test
+    runs-on: ubuntu-latest
+    needs: lint
+    # Skip on PRs from forks to avoid surprise VitalDB requests.
+    if: github.event.pull_request.head.repo.fork != true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install minimal deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas h5py vitaldb
+
+      - name: Dry-run case selection (no network)
+        run: |
+          python 05_pipeline_v3/scripts/download_vitaldb.py --dry-run --n 3
